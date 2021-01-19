@@ -1,7 +1,29 @@
+
+/*  
+ *   Hunter Ruebsamen
+ *   Engineering Innovations - HBHS
+ *   Teacher: Mr. Crossett
+ *   2020-2021
+ *   
+ *   License: GPL v3
+ */
+
+// I2C Pins on NODE MCU
+// D4 - SDA
+// D5 - SCL
+
+/* PARTS */
+// NODE MCU V3 LOLIN
+// RCWL-0516 - Doppler Radar Sensor
+// 1602 LCD i2c interface
+// 16x2 LCD Screen
+
 #include <LCD_I2C.h>
 #include <ESP8266WiFi.h>
 
+// The output from the RCWL-0516 will feed into D3
 #define SENSORPIN D3
+
 //Variable instantiation
 LCD_I2C lcd (0x27);
 int sensorValue = 0;
@@ -13,7 +35,7 @@ void setup() {
   lcd.begin();
   lcd.backlight();
   
-  WiFi.begin("commodore", "TeddybearPW707");
+  WiFi.begin("<your ssid>", "<password>");
 
   Serial.print("Connecting");
   lcd.print("Connecting");
@@ -33,7 +55,8 @@ void setup() {
     Serial.println();
     Serial.print("IP Address: ");
     Serial.println(WiFi.localIP());
-  
+
+    // Display IP Address we connected to
     lcd.clear();
     lcd.print("IP Address: ");
     lcd.setCursor(0,1);
@@ -68,6 +91,7 @@ void loop() {
       lcd.setCursor(0,1);
       lcd.print("detected");
       Serial.println("Movement detected");
+      // Could send an email or text message here, and sound an alarm
     }
     lastValue = sensorValue; // sets lastValue to current Sensor 
   }
